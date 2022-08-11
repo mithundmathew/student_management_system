@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Student Dashboard</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <style>
+        *,
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background-color: #152733;
+            overflow: hidden;
+        }
+
+
+        .form-holder {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        .form-holder .form-content {
+            position: relative;
+            text-align: center;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-align-items: center;
+            align-items: center;
+            padding: 60px;
+        }
+
+        .form-content .form-items {
+            border: 3px solid #fff;
+            padding: 40px;
+            display: inline-block;
+            width: 100%;
+            min-width: 540px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            text-align: left;
+            -webkit-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+        .form-content h3 {
+            color: #fff;
+            text-align: left;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-content h3.form-title {
+            margin-bottom: 30px;
+        }
+
+        .form-content p {
+            color: #fff;
+            text-align: left;
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 20px;
+            margin-bottom: 30px;
+        }
+
+
+        .form-content label,
+        .was-validated .form-check-input:invalid~.form-check-label,
+        .was-validated .form-check-input:valid~.form-check-label {
+            color: #fff;
+        }
+
+        .form-content input[type=text],
+        .form-content input[type=password],
+        .form-content input[type=email],
+        .form-content select {
+            width: 100%;
+            padding: 9px 20px;
+            text-align: left;
+            border: 0;
+            outline: 0;
+            border-radius: 6px;
+            background-color: #fff;
+            font-size: 15px;
+            font-weight: 300;
+            color: #8D8D8D;
+            -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+
+
+        .btn-primary {
+            background-color: #6C757D;
+            outline: none;
+            border: 0px;
+            box-shadow: none;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active {
+            background-color: #495056;
+            outline: none !important;
+            border: none !important;
+            box-shadow: none;
+        }
+
+        .form-content textarea {
+            position: static !important;
+            width: 100%;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-align: left;
+            background-color: #fff;
+            border: 0;
+            font-size: 15px;
+            font-weight: 300;
+            color: #8D8D8D;
+            outline: none;
+            resize: none;
+            height: 120px;
+            -webkit-transition: none;
+            transition: none;
+            margin-bottom: 14px;
+        }
+
+        .form-content textarea:hover,
+        .form-content textarea:focus {
+            border: 0;
+            background-color: #ebeff8;
+            color: #8D8D8D;
+        }
+
+        .mv-up {
+            margin-top: -9px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .invalid-feedback {
+            color: #ff606e;
+        }
+
+        .valid-feedback {
+            color: #2acc80;
+        }
+
+        a {
+            text-decoration: none;
+
+        }
+
+        .btn {
+            outline: 0px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    {{!-- content --}}
+    <div class="col py-3 container">
+
+        <button type="button" onclick="location.href='/student_reg' ">New Student</button>
+        <button type="button" onclick="location.href='/branch' ">Add Branch</button>
+
+
+        <form action="/admin/dashboard ">
+            <button type="submit" style="float:right;height: 30px;" class="btn btn-primary"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg></button>
+
+            <input type="search" name="searchtext" placeholder="Search" style="float:right" id="form1"
+                class="form-outline" />
+        </form>
+
+
+        {{!-- <div style="float:right ;margin-right: 2%;">
+            <button type="button" class="btn btn-secondary " onclick=" location.href='/admin/dashboard/?order=asc' ">
+                A-Z
+            </button>
+            <button type="button" class="btn btn-secondary " onclick=" location.href='/admin/dashboard/?order=desc' ">
+                Z-A
+            </button>
+        </div> --}}
+
+
+
+
+
+        <table class=" table table-light table-lg text-center my-4 table-striped table-hover">
+            Student Details
+            <thead>
+                <tr>
+                    <th>
+
+                        Name
+                        <button class="btn btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                            <li><a class="dropdown-item active" href="/admin/dashboard/?order=asc">A - Z</a></li>
+                            <li><a class="dropdown-item" href="/admin/dashboard/?order=desc">Z - A</a></li>
+
+                        </ul>
+
+                    </th>
+                    <th>Address</th>
+
+
+                    <th>DOB</th>
+                    <th>Mob No</th>
+                    <th>Email</th>
+                    <th>Images</th>
+                    <th>Action</th>
+                    {{!-- <th>Password</th> --}}
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>{{#each data}}
+
+                    <td>{{this.name}}</td>
+                    <td>{{this.address}}</td>
+
+
+                    <td>{{this.dob}}</td>
+                    <td>{{this.phno}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.image}}</td>
+
+                    {{!-- <td>{{this.password}}</td> --}}
+                    <td>
+                        <a href="/admin/edit/{{this._id}}"> <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                <path
+                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
+                            </svg></a>&nbsp;&nbsp;
+                        <a href="/admin/delete/{{this._id}}"> <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path
+                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                <path fill-rule="evenodd"
+                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                            </svg> </a> &nbsp;&nbsp;
+                        <a href="/admin/view/{{this._id}}"> <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path
+                                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                <path
+                                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                            </svg></a>
+                    </td>
+
+                </tr>
+                {{/each}}
+                <tr>
+            </tbody>
+        </table>
+
+        <center>
+            <div>
+                <a href="/admin/dashboard/?page=1">
+                    << </a>
+                        <a href="/admin/dashboard/?page={{currentPage}}">{{currentPage}}</a>
+                        {{#if demolim}}
+                        <a href="/admin/dashboard/?page={{nextPage}}">{{nextPage}}</a>
+                        {{/if}}
+                        <a href="/admin/dashboard/?page={{lastPage}}">>></a>
+            </div>
+        </center>
+
+        <button onclick="print()" class="btn btn-primary">print</button>
+        <button onclick="location.href='/logout' " class=" btn btn-primary">Logout</button>
+    </div>
+
+
+</body>
+
+<script></script>
+
+
+</html>
