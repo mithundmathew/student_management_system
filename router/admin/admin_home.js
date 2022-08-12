@@ -14,6 +14,7 @@ require('../../middlewares/passport.config')(passport)
 const { ensureAuthenticated } = require('../../middlewares/auth')
 const { query } = require('express')
 
+var generator = require('generate-password');
 
 
 // router.post('/', async (req, res) => {
@@ -41,6 +42,7 @@ const { query } = require('express')
 //     }
 // })
 
+
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/admin/dashboard',
@@ -48,6 +50,10 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 })
 
+
+
+
+//new student registration
 router.post('/new_student', ensureAuthenticated, upload, async (req, res,) => {
 
     try {
@@ -66,7 +72,7 @@ router.post('/new_student', ensureAuthenticated, upload, async (req, res,) => {
     }
 })
 
-
+//admin dashboard
 router.get('/dashboard', ensureAuthenticated, async (req, res) => {
 
     var query = {};
@@ -88,7 +94,7 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
 
     }
 
-    ITEMS_PER_PAGE = 6
+    ITEMS_PER_PAGE = 10
     let page = +req.query.page
     let sort = req.query.sort || "name"
     req.query.sort ? (sort == req.query.sort.split(",")) : (sort = [sort])
@@ -103,6 +109,7 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
     if (!page) page = 1
     let totalItems;
 
+
     student.find(query)
         .countDocuments()
         .then(count => {
@@ -113,7 +120,9 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
                 .limit(ITEMS_PER_PAGE);
         })
         .then(students => {
-
+            // console.log('total count' + totalItems)
+            let lastpage = Math.ceil(totalItems / ITEMS_PER_PAGE)
+            // console.log('lastpage' + lastpage);
             res.render('admin/admin_home', {
                 data: students,
                 currentPage: page,
@@ -122,7 +131,9 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
                 nextPage: page + 1,
                 previousPage: page - 1,
                 lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
-                demolim: page < (Math.ceil(totalItems / ITEMS_PER_PAGE))
+                // demolim: page < (Math.ceil(totalItems / ITEMS_PER_PAGE))
+                nonext: page <= lastpage
+
             });
         })
         .catch(err => {
@@ -130,18 +141,12 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
         });
 
 })
-// router.get('/query', async (req, res) => {
-//     var query = {};
 
-//     if (req.query.searchtext) {
-//         query['name'] = { $regex: req.query.searchtext, $options: 'i' }
 
-//     }
-//     var result = await student.find(query)
-//     res.render('admin/admin_home', { data: result })
-//     console.log(req.query.searchtext)
-// })
 
+
+
+//view student 
 router.get('/view/:id', ensureAuthenticated, async (req, res) => {
     try {
         var id = mongoose.Types.ObjectId(req.params.id);
@@ -160,6 +165,9 @@ router.get('/view/:id', ensureAuthenticated, async (req, res) => {
     }
 })
 
+
+
+//get student details for edit 
 router.get('/edit/:id', ensureAuthenticated, async (req, res) => {
     try {
         var id = mongoose.Types.ObjectId(req.params.id);
@@ -174,8 +182,12 @@ router.get('/edit/:id', ensureAuthenticated, async (req, res) => {
     }
 })
 
+
+//delete student
 router.get('/delete/:id', ensureAuthenticated, async (req, res) => {
     try {
+
+
         // var id = mongoose.Types.ObjectId(req.params.id);
         result = await student.findByIdAndDelete({ _id: req.params.id })
         let msg = "Profile Deleted";
@@ -186,6 +198,11 @@ router.get('/delete/:id', ensureAuthenticated, async (req, res) => {
         console.log('error : ' + error)
     }
 })
+
+
+
+
+//update student
 router.post('/update/:id', ensureAuthenticated, async (req, res) => {
 
     var id = req.params.id
@@ -209,9 +226,46 @@ router.post('/update/:id', ensureAuthenticated, async (req, res) => {
     console.log('updated')
 
     res.redirect('/admin/dashboard')
-
-
+})
+router.get('/forgot', async function (req, res) {
+    res.render('admin/forgot_pswd')
 })
 
+
+//reset admin pasword
+router.post('/forgot_pswd', async function (req, res) {
+
+    try {
+        const newPassword = generator.generate({
+            length: 10,
+            numbers: true
+        });
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        const Admin = await admin.findOneAndUpdate({ email: req.body.forgot_mail }, {
+            password: hashedPassword
+        })
+        if (!Admin) {
+            alert('cannot find email')
+            res.redirect('/admin/forgot')
+        } else {
+
+            let msg = "Your New Passord : " + newPassword
+            mail(req.body.forgot_mail, msg)
+            alert('New Password Sent to Your Mail')
+            res.redirect('/')
+        }
+    }
+
+    catch (error) {
+        throw error
+    }
+
+
+    // console.log(password);
+
+})
 
 module.exports = router

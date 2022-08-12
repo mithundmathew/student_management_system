@@ -9,13 +9,13 @@ module.exports = async function main(mail, msg) {
         secure: false,
         // service: 'gmail',
         auth: {
-            user: 'mithun.mathew@spericorn.com',
-            pass: '#mithun@2001'
+            user: process.env.USER,
+            pass: process.env.PASSWORD
         }
     });
 
     let mailDetails = {
-        from: 'mithun.mathew@spericorn.com',
+        from: process.env.USER,
         to: mail,
         subject: 'Spericorn Welcomes You',
         text: msg

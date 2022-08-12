@@ -291,19 +291,30 @@
         </table>
 
         <center>
-            <div>
-                <a href="/admin/dashboard/?page=1">
-                    << </a>
-                        <a href="/admin/dashboard/?page={{currentPage}}">{{currentPage}}</a>
-                        {{#if demolim}}
-                        <a href="/admin/dashboard/?page={{nextPage}}">{{nextPage}}</a>
-                        {{/if}}
-                        <a href="/admin/dashboard/?page={{lastPage}}">>></a>
+            <div class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <li class="page-item"> <a class="page-link" aria-label="Previous"
+                            href="/admin/dashboard/?page={{previousPage}}">
+                            <span aria-hidden="true">&laquo;</span> </a></li>
+
+                    {{!-- <li class="page-item "> <a class="page-link"
+                            href="/admin/dashboard/?page={{previousPage}}">{{previousPage}}</a></li> --}}
+                    <li class="page-item " aria-current="page"> <a class="page-link"
+                            href="/admin/dashboard/?page={{currentPage}}">{{currentPage}}</a></li>
+                    {{!-- {{#if nonext}} <li class="page-item "> <a class="page-link"
+                            href="/admin/dashboard/?page={{nextPage}}">{{nextPage}}</a>
+                    </li>
+                    {{/if}} --}}
+                    <li class="page-item"> <a class="page-link" href="/admin/dashboard/?page={{nextPage}}">
+                            <span aria-hidden="true">&raquo;</span></a>
+                    </li>
+                </ul>
             </div>
         </center>
 
         <button onclick="print()" class="btn btn-primary">print</button>
         <button onclick="location.href='/logout' " class=" btn btn-primary">Logout</button>
+
     </div>
 
 

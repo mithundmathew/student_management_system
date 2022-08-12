@@ -39,8 +39,10 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="typePasswordX-2">Password</label>
-                                    <input type="password" id="typePasswordX-2" name="password"
-                                        class="form-control form-control-lg" required />
+                                    <input type="password" id="typePasswordX-2" name="password" class=" form-control
+                                        form-control-lg" pattern=".{4,}" required />
+                                    <div class="invalid-feedback">password must contain atleast 4 characters</div>
+
                                 </div>
 
                                 <!-- Checkbox -->
