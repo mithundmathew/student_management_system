@@ -40,7 +40,13 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="typePasswordX-2">Password</label>
                                     <input type="password" id="typePasswordX-2" name="password"
+                                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$"
                                         class="form-control form-control-lg" required />
+                                    <div class="text-start"> <input type="checkbox" style="margin-top: 12px;"
+                                            onclick="Toggle()">
+                                        Show Password</div>
+                                    {{!-- <div class="invalid-feedback">password must contain 8 characters,special
+                                        character,uppercase letter, lowercase letter, digit</div> --}}
                                 </div>
 
                                 <!-- Checkbox -->
@@ -63,6 +69,18 @@
             </div>
         </section>
     </form>
+    <script>
+        // Change the type of input to password or text
+        function Toggle() {
+            var temp = document.getElementById("typePasswordX-2");
+            if (temp.type === "password") {
+                temp.type = "text";
+            }
+            else {
+                temp.type = "password";
+            }
+        }
+    </script>
 </body>
 
 </html>

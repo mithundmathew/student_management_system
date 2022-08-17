@@ -13,6 +13,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         *,
         body {
@@ -190,7 +191,8 @@
 
                             <div class="col-md-12 mt-2">
                                 <label class="mt-1 mr-1" for="name">Full Name </label>
-                                <input class="form-control" type="text" name="name" placeholder="Full Name" required>
+                                <input class="form-control" type="text" name="name" id="name" placeholder="Full Name"
+                                    pattern="^[a-zA-Z ]*$" required>
                                 {{!-- <div class="valid-feedback">Username field is valid!</div> --}}
                                 {{!-- <div class="invalid-feedback">Username field cannot be blank!</div> --}}
                             </div>
@@ -258,7 +260,7 @@
 
                             <div class="col-md-12 mt-2">
                                 <label class="mt-1 mr-1" for="image">upload your photo </label>
-                                <input class="form-control" type="file" name="image" required>
+                                <input class="form-control" type="file" accept="image/*" name="image" required>
                                 {{!-- <div class="valid-feedback">Password field is valid!</div> --}}
                                 {{!-- <div class="invalid-feedback">Password field cannot be blank!</div> --}}
                             </div>
@@ -307,6 +309,22 @@
         })()
 
     </script> --}}
+
+    <script>
+        document.getElementById("name").addEventListener("input", forceLower);
+        function forceLower(evt) {
+
+            var words = evt.target.value.toLowerCase().split(/\s+/g);
+
+            var newWords = words.map(function (element) {
+
+                return element !== "" ? element[0].toUpperCase() + element.substr(1, element.length) : "";
+            });
+
+
+            evt.target.value = newWords.join(" ");
+        }
+    </script>
 
 </body>
 

@@ -59,12 +59,15 @@ router.post('/new_student', ensureAuthenticated, upload, async (req, res,) => {
     try {
         var result = req.body
         result.image = req.file.filename
-        const data = new student(result)
+        const data = await new student(result)
         let msg = "Succesfully completed your registration"
         mail(req.body.email, msg)
-        data.save()
         alert('Successsfully Registered')
+
+        data.save()
         console.log(data)
+        // console.log('req.file', req.file)
+        // console.log('req.path', req.path)
         res.redirect('/admin/dashboard')
     }
     catch (error) {
@@ -85,16 +88,13 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
                 { name: { $regex: req.query.searchtext, $options: 'i' } },
                 { address: { $regex: req.query.searchtext, $options: 'i' } },
                 { dob: { $regex: req.query.searchtext, $options: 'i' } },
-                // { phno: { $regex: req.query.searchtext, $options: 'i' } },
                 { email: { $regex: req.query.searchtext, $options: 'i' } },
-                // { image: { $regex: req.query.searchtext, $options: 'i' } },
-
             ]
         }
 
     }
 
-    ITEMS_PER_PAGE = 10
+    ITEMS_PER_PAGE = 5
     let page = +req.query.page
     let sort = req.query.sort || "name"
     req.query.sort ? (sort == req.query.sort.split(",")) : (sort = [sort])
@@ -131,8 +131,8 @@ router.get('/dashboard', ensureAuthenticated, async (req, res) => {
                 nextPage: page + 1,
                 previousPage: page - 1,
                 lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
-                // demolim: page < (Math.ceil(totalItems / ITEMS_PER_PAGE))
-                nonext: page <= lastpage
+                demolim: page < (Math.ceil(totalItems / ITEMS_PER_PAGE))
+
 
             });
         })
@@ -173,6 +173,7 @@ router.get('/edit/:id', ensureAuthenticated, async (req, res) => {
         var id = mongoose.Types.ObjectId(req.params.id);
 
         const result = await student.find({ _id: id })
+        console.log(result.path)
         res.render('admin/student_edit', { data: result[0] })
 
         // res.json(result)
@@ -186,13 +187,12 @@ router.get('/edit/:id', ensureAuthenticated, async (req, res) => {
 //delete student
 router.get('/delete/:id', ensureAuthenticated, async (req, res) => {
     try {
-
-
-        // var id = mongoose.Types.ObjectId(req.params.id);
-        result = await student.findByIdAndDelete({ _id: req.params.id })
+        var id = mongoose.Types.ObjectId(req.params.id);
+        // console.log(id)
+        result = await student.findByIdAndDelete({ _id: id })
         let msg = "Profile Deleted";
         mail(result.email, msg)
-        alert('Profile Deleted')
+        // alert('Profile Deleted')
         res.redirect('/admin/dashboard')
     } catch (error) {
         console.log('error : ' + error)
@@ -203,20 +203,26 @@ router.get('/delete/:id', ensureAuthenticated, async (req, res) => {
 
 
 //update student
-router.post('/update/:id', ensureAuthenticated, async (req, res) => {
+router.post('/update/:id', ensureAuthenticated, upload, async (req, res) => {
 
     var id = req.params.id
-    const { name, address, dob, phno, email, image } = req.body
-    var query = await student.findByIdAndUpdate(id, {
-        name: name,
-        address: address,
-        dob: dob,
-        phno: phno,
-        email: email,
-        image: image
-        // name: req.body.name,
-        // age: req.body.age
-    }, { new: true })
+    const { email } = req.body
+
+
+
+    if (req.file) {
+        data = await student.findByIdAndUpdate(id, {
+            $set: req.body,
+            image: req.file.filename
+        }, { new: true })
+
+    } else {
+        data = await student.findByIdAndUpdate(id, {
+            $set: req.body,
+        }, { new: true })
+
+    }
+
     let msg = "profile Updated"
     mail(email, msg)
 
@@ -238,7 +244,9 @@ router.post('/forgot_pswd', async function (req, res) {
     try {
         const newPassword = generator.generate({
             length: 10,
-            numbers: true
+            numbers: true,
+            symbols: true
+
         });
 
         const salt = await bcrypt.genSalt(10);

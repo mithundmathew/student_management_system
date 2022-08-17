@@ -187,13 +187,14 @@
                     <div class="form-items">
                         <h3>Edit Student Details</h3>
                         <p>Fill in the data below.</p>
-                        <form method="post" action="/admin/update/{{data._id}}" class="was-validated" novalidate>
+                        <form method="post" action="/admin/update/{{data._id}}" class="was-validated"
+                            enctype="multipart/form-data">
 
 
 
-                            <label class="mt-1 mr-1" for="name">profile pic </label>
+
                             <img src="/images/{{data.image}}" class="rounded-circle" alt="profile pic"
-                                style="margin-left: 100px ;border-radius: 50%;width: 100px; height: 100px;">
+                                style="margin-left: 165px ;border-radius: 50%;width: 100px; height: 100px;" id="photo">
 
 
 
@@ -207,7 +208,7 @@
                             </div>
 
                             <div class="col-md-12 mt-3">
-                                <label class="mt-1 mr-1" for="address">Address </label>
+                                <label class="mt-1 mr-1 " for="address">Address </label>
                                 <input class="form-control" type="text" name="address" placeholder="Address "
                                     value="{{data.address}}" required>
                                 {{!-- <div class="valid-feedback">This field is valid!</div>
@@ -273,20 +274,13 @@
                                 <div class="invalid-feedback">Email field cannot be blank!</div> --}}
                             </div>
 
-
-
-
-                            {{!-- <div class="col-md-12 mt-3">
-                                <label class="mt-1 mr-1" for="gender">Password </label>
-                                <input class="form-control" type="password" name="password" placeholder="Password"
-                                    value="{{data.password}}" required> --}}
-                                {{!-- <div class="valid-feedback">Password field is valid!</div>
-                                <div class="invalid-feedback">Password field cannot be blank!</div> --}}
-                                {{!--
-                            </div> --}}
-
-
-
+                            <div class="col-md-12 mt-2">
+                                <label class="mt-1 mr-1" for="image">upload your photo </label>
+                                <input class="form-control" type="file" name="image" accept="image/*"
+                                    src="/images/1660654843556.jpg" onchange="readURL(this)">
+                                {{!-- <div class="valid-feedback">Password field is valid!</div> --}}
+                                {{!-- <div class="invalid-feedback">Password field cannot be blank!</div> --}}
+                            </div>
 
                             {{!-- <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
@@ -308,6 +302,19 @@
         </div>
     </div>
 
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#photo').attr('src', e.target.result)
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 
     {{!--
     <script>
